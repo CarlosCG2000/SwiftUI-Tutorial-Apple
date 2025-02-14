@@ -14,6 +14,7 @@ struct MapView: View {
         Map(initialPosition: .region(region))
     }
     
+    // Cree una variable calculada privada que contenga la información de la región para el mapa.
     private var region: MKCoordinateRegion {
         
         MKCoordinateRegion(
