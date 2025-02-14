@@ -1,7 +1,9 @@
 # CURSO: `https://developer.apple.com/tutorials/swiftui/`
 
 ## App, Scene, View
-...
+- App
+- Scene
+- View
 
 ## ¿Qué es un `Property Wrapper` en Swift?
 Un Property Wrapper en Swift es una estructura que encapsula la lógica de acceso a una propiedad, permitiendo modificar cómo se almacena o se accede a su valor.
