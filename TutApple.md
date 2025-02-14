@@ -236,7 +236,6 @@ Son dos momentos diferentes en el ciclo de vida de un programa:
 • Tiempo de ejecución → Errores o acciones que ocurren cuando la app ya está corriendo. 🚀
 
 ## 5. ¿Qué hace `@Environment(ModelData.self) var modelData` y `.environment(ModelData())`? Diferencia entre `@Environment()` y `@State`
-
 • `@Environment` es un `property wrapper` en SwiftUI que permite acceder a datos compartidos en el entorno de la app.
 • `ModelData.self` indica que estamos accediendo a una instancia de `ModelData` que ya está almacenada en el entorno de SwiftUI.
 
