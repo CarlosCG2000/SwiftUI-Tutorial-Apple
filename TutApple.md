@@ -222,7 +222,7 @@ SwiftUI aún no usa macros de `forma directa`, pero con macros personalizadas se
 | 🔧 **Qué hace**    | Genera código nuevo antes de compilar | Modifica el comportamiento de propiedades en ejecución |
 | 📌 **Ejemplo**      | `#double(10)` → se expande a `20` | `@State var count = 0` |
 
-# 4. ¿Qué significa `tiempo de compilación` vs. `tiempo de ejecución`?
+## 4. ¿Qué significa `tiempo de compilación` vs. `tiempo de ejecución`?
 Son dos momentos diferentes en el ciclo de vida de un programa:
 
 ### 🔹 Fases de ejecución en Swift
