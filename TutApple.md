@@ -346,15 +346,48 @@ De hay se pasa ya a la carpeta `Hikes`:
 3️⃣ `GraphCapsule` - Utiliza `Range<Double>` y cálculos proporcionales para `renderizar cápsulas escaladas` y desplazadas correctamente en función de los datos.
 4️⃣ `HikeDetail` - Unir en una misma vista `HikeGraph` con los botones de acciones.
 
+## 1. `Transición dinámica` personalizada dependiendo de la acción.
+```js
+        // FUERA DE LA VISTA....
+        static var moveAndFade: AnyTransition {
+                .asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .scale.combined(with: .opacity)
+                )
+            }
+
+        // DENTRO DE LA VISTA....
+        HikeDetail(hike: hike) // Subview for the detail
+                    .transition(.moveAndFade) // Animacion de transición (extraida arriba declarada)
+```
+
+¿Cómo funciona esto?
++ `.asymmetric(...)`: permite definir transiciones diferentes para cuando una vista:
+1. Aparece (`insertion`): en este caso, se mueve desde el borde derecho y aparece gradualmente `(.move(edge: .trailing).combined(with: .opacity))`
+2. Desaparece (`removal`): se encoge y se desvanece (`.scale.combined(with: .opacity)`).
 
 # ___________________________ SECCIÓN 3 `DISEÑO Y DISPOSICIÓN` ___________________________
 
 # ..................... PROYECTO:`6_ComposingComplexInterfaces` .....................
+Se divide en un `TabView` con dos secciones (`tabItem`). La segunda `tabItem` contendra todo la app hecha hasta el momento con el listado y filtro de favoritos y la navegación a detalles de cada lugar.
+
+Y la primera `tabItem` va a mostrar una pantalla mas bonita categorizando los lugar con imagenes y a lo que se va a poder acceder (navegando) tambien a la pantalla de detalles de cada lugar.
+
+Se modifcian los archivso:
+- `ModelData`: 
+- `ContentView`: 
+
+Se crea la carpeta `Category`:
+1️⃣ `CategoryHome` - 
+2️⃣ `CategoryRow` - 
+3️⃣ `CategoryItem` - 
+
+## 1. 
 
 
 
 
 
-# _____________________________ `Mi aplicación (Simpsons)` _____________________________
-### `Spinner` animación de `Donut` creado a través de un `Path` (camino)
-### `Animaciones` de `forma lenta o rapida` y de `forma dinamica` en caso de que se abran o cierren que cambien el tipo de animación
+
+
+# ################################## `Mi aplicación (Simpsons)` ##################################

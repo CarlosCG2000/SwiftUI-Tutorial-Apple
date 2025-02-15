@@ -8,9 +8,11 @@ A view showing a single category item.
 import SwiftUI
 
 struct CategoryItem: View {
+    
     var landmark: Landmark
 
     var body: some View {
+        
         VStack(alignment: .leading) {
             landmark.image
                 .renderingMode(.original)
@@ -22,6 +24,7 @@ struct CategoryItem: View {
                 .font(.caption)
         }
         .padding(.leading, 15)
+        
     }
 }
 

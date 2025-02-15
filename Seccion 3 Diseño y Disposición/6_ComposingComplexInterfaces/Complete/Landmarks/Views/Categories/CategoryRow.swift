@@ -8,6 +8,7 @@ A view showing a scrollable list of landmarks.
 import SwiftUI
 
 struct CategoryRow: View {
+    
     var categoryName: String
     var items: [Landmark]
 

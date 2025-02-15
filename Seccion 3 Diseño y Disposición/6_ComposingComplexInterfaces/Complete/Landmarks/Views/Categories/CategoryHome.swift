@@ -8,6 +8,7 @@ A view showing featured landmarks above a list of landmarks grouped by category.
 import SwiftUI
 
 struct CategoryHome: View {
+    
     @Environment(ModelData.self) var modelData
 
     var body: some View {
