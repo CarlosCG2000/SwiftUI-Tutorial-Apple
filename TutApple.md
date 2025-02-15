@@ -307,5 +307,54 @@ Aquí, `isOn` pertenece a `ModelData`, y `@Bindable` permite que `la vista` lo u
 # ___________________________ SECCIÓN 2 `DIBUJO Y ANIMACIÓN` ___________________________
 
 # ..................... PROYECTO:`4_DrawingPathsAndShapes` .....................
-Sigue estando la aplicacion de `la sección 1`. Lo que se `ha añadido` va a aparte es como diseñar y crear un icono en la carpeta `Badges`.
+Sigue estando la aplicacion de `la sección 1`. Lo que se `ha añadido` va a aparte es como diseñar y crear un insignia (Badge) con un  `fondo hexagonal`  y `símbolos rotados` en su interior con `curvas de Bézier` usando Path, desarrollado en la carpeta `Badges`.
 
+- `Historia` de las `curvas de Bézier`: han sido ampliamente usadas en los gráficos generados por ordenador para modelado de curvas suaves. Como la curva está completamente contenida en la envolvente convexa de los puntos de control, dichos puntos pueden ser visualizados gráficamente sobre el área de trabajo y usados para manipular la curva de una forma muy intuitiva. Las transformaciones afines tales como traslaciones y rotaciones pueden ser aplicadas, con gran facilidad, a las curvas, aplicando las transformaciones respectivas sobre los puntos de control.
+
+Ficheros:
+1️⃣ `HexagonParameters` - Define los puntos del hexágono
+2️⃣ `BadgeBackground` - Dibuja el hexágono
+3️⃣ `BadgeSymbol` - Dibuja el símbolo interno
+4️⃣ `RotatedBadgeSymbol` - Rota el símbolo
+5️⃣ `Badge` - Ensambla todo
+
+## 1. ¿Para qué sirve `Path`?
+• Path permite `dibujar formas personalizadas` en SwiftUI.
+• Se usa en este ejemplo para definir los `bordes de un hexágono` y `dibujar curvas de Bézier`.
+• `Combina líneas` (`addLine`) y `curvas` (`addQuadCurve`) para lograr `formas complejas`.
+
+### Métodos de `Path` en SwiftUI para `crear una figura`
+| Método | Descripción |
+|--------|------------|
+| `move(to:)` | Define el punto de inicio. |
+| `addLine(to:)` | Dibuja una línea recta. |
+| `addQuadCurve(to:control:)` | Dibuja una curva con un solo punto de control. |
+| `addCurve(to:control1:control2:)` | Dibuja una curva con dos puntos de control. |
+| `addArc(center:radius:startAngle:endAngle:clockwise:)` | Dibuja un arco circular. |
+| `addRect(_:)` | Dibuja un rectángulo. |
+| `addEllipse(in:)` | Dibuja una elipse o círculo. |
+| `closeSubpath()` | Cierra la forma automáticamente. |
+
+🚀 Conclusión: `Path` se usa aquí para `construir formas personalizadas` como el `hexágono` y el `símbolo de la insignia`, controlando cada punto y curva con precisión.
+
+# ..................... PROYECTO:`5_AnimatingViewsAndTransitions` .....................
+Se crea la carpeta `Hikes` y un nuevo json de `hikeData` para añadir un nuevo modelo `Hike` y en el repositorio `ModelData` obtener tambien los datos en forma de objeto (tipo array de `Hike` de la fuente del json `hikeData`).
+
+De hay se pasa ya a la carpeta `Hikes`:
+1️⃣ `HikeView` - Esta utilizando una transición personalizada con `AnyTransition` para animar la aparición y desaparición de `HikeDetail`, combinando e`fectos de movimiento y desvanecimiento`. También estás aprovechando las `animaciones asimétricas` para diferenciar la forma en que la vista aparece y desaparece.
+2️⃣ `HikeGraph` - utilizando `KeyPath` de manera inteligente para `generar gráficos dinámicos` para diferentes métricas de Hike.Observation, y además aplicas animaciones personalizadas.
+3️⃣ `GraphCapsule` - Utiliza `Range<Double>` y cálculos proporcionales para `renderizar cápsulas escaladas` y desplazadas correctamente en función de los datos.
+4️⃣ `HikeDetail` - Unir en una misma vista `HikeGraph` con los botones de acciones.
+
+
+# ___________________________ SECCIÓN 3 `DISEÑO Y DISPOSICIÓN` ___________________________
+
+# ..................... PROYECTO:`6_ComposingComplexInterfaces` .....................
+
+
+
+
+
+# _____________________________ `Mi aplicación (Simpsons)` _____________________________
+### `Spinner` animación de `Donut` creado a través de un `Path` (camino)
+### `Animaciones` de `forma lenta o rapida` y de `forma dinamica` en caso de que se abran o cierren que cambien el tipo de animación

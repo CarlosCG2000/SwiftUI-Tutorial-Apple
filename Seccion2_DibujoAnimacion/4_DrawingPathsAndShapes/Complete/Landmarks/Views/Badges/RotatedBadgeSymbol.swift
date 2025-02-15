@@ -7,14 +7,16 @@ A view that displays a rotated version of a badge symbol.
 
 import SwiftUI
 
+// Crea una versión rotada del BadgeSymbol.
 struct RotatedBadgeSymbol: View {
-    let angle: Angle
+    
+    let angle: Angle // Ángulo de rotación del símbolo del distintivo.
 
     var body: some View {
         
         BadgeSymbol()
             .padding(-60)
-            .rotationEffect(angle, anchor: .bottom)
+            .rotationEffect(angle, anchor: .bottom) // Gire el símbolo del distintivo alrededor de su punto de anclaje inferior.
     }
 }
 
