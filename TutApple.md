@@ -374,15 +374,74 @@ Se divide en un `TabView` con dos secciones (`tabItem`). La segunda `tabItem` co
 Y la primera `tabItem` va a mostrar una pantalla mas bonita categorizando los lugar con imagenes y a lo que se va a poder acceder (navegando) tambien a la pantalla de detalles de cada lugar.
 
 Se modifcian los archivso:
-- `ModelData`: 
-- `ContentView`: 
+- `Landmark`: añadido variable de `isFeatured` (bool - destacado) y `category` (enum - categoria)
+- `ModelData`: se añade `propiedad computada` par aobtener los lugares solo filtrados con el campo `isFeatured` (destacado) a true. Y un `diccionario` que `agrupa` los landmarks por `categoría`.
+- `ContentView`: `TabView` con las dos salidas en unos `tabItem`
 
 Se crea la carpeta `Category`:
-1️⃣ `CategoryHome` - 
-2️⃣ `CategoryRow` - 
-3️⃣ `CategoryItem` - 
+1️⃣ `CategoryHome` - listato vertical dividido en secciones horizontales por categorias.
+2️⃣ `CategoryRow` - 'listado' horizontal para una seccion en especifico de categoria
+3️⃣ `CategoryItem` - elemento que conforma para cada 'listado' horizontal
 
-## 1. 
+## 1. `Agrupar` un `array de diccionario` por tipo de campos de forma directa
+```js
+var categories: [String: [Landmark]] {
+    Dictionary(
+        grouping: landmarks, // Array de landmarks.
+        by: { $0.category.rawValue } // Agrupa por la categoría de cada landmark.
+    )
+}
+```
+
+1. `grouping`:
+• Toma el array landmarks (un array de objetos Landmark).
+• Agrupa los elementos del array en subarrays según un criterio.
+2. `by`:
+• Define cómo agrupar los elementos.
+• En este caso, se agrupa usando la categoría (category.rawValue) de cada Landmark.
+
+## 2. ¿Qué hace `.listRowInsets(EdgeInsets())`?
+• Elimina el padding predeterminado de los elementos de la lista.
+• De forma predeterminada, SwiftUI aplica un espaciado alrededor de cada fila en una List. Usando EdgeInsets() lo establece en cero, haciendo que el contenido ocupe todo el ancho disponible.
+
+## 3. ¿Qué hace `showsIndicators: false`?
+En un ScrollView en SwiftUI controla la visibilidad de las barras de desplazamiento.
+
+```js
+ScrollView(.horizontal, showsIndicators: false) {
+    // Contenido desplazable
+}
+```
+
+• `showsIndicator: false`: Oculta las barras de desplazamiento.
+• `showsIndicators: true` (valor predeterminado): Muestra las barras de desplazamiento.
+
+## 4. ¿Por qué usar `.renderingMode(.original)`?
+En SwiftUI, `.renderingMode(.original)` se utiliza para mostrar una imagen con sus colores originales, en lugar de aplicarle el tinte (tint) predeterminado de la vista que la contiene.
+
+Si no se especifica el modo de renderizado, SwiftUI puede aplicar el color de acento o el tinte de la vista padre a la imagen, especialmente si es un símbolo de SF Symbols o una imagen con colores transparentes.
+
+Por ejemplo:
+• `Sin .renderingMode(.original)`: La imagen puede aparecer en azul (u otro color de acento definido).
+• `Con .renderingMode(.original)`: La imagen mantiene sus colores naturales.
+
+```js
+landmark.image
+    .renderingMode(.original)
+    .resizable()
+    .frame(width: 155, height: 155)
+    .cornerRadius(5)
+```
+
+Aquí se asegura de que la imagen del landmark:
+• Se muestre tal cual fue diseñada, sin aplicar ningún tinte de color.
+• Se haga resizable para adaptarse al tamaño especificado.
+• Tenga esquinas redondeadas con .cornerRadius(5).
+
+# ..................... PROYECTO:`7_WorkingWithUIControls` .....................
+Añade este nuevo proyecto...
+
+## 1.
 
 
 

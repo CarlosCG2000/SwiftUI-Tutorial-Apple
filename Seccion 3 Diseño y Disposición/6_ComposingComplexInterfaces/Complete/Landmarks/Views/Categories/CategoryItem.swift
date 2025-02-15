@@ -14,11 +14,13 @@ struct CategoryItem: View {
     var body: some View {
         
         VStack(alignment: .leading) {
+            
             landmark.image
-                .renderingMode(.original)
+                .renderingMode(.original) // se utiliza para mostrar una imagen con sus colores originales, en lugar de aplicarle el tinte (tint) predeterminado de la vista que la contiene.
                 .resizable()
                 .frame(width: 155, height: 155)
                 .cornerRadius(5)
+            
             Text(landmark.name)
                 .foregroundStyle(.primary)
                 .font(.caption)

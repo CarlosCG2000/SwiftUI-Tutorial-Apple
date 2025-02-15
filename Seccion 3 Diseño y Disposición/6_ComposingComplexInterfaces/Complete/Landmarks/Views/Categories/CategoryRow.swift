@@ -10,16 +10,22 @@ import SwiftUI
 struct CategoryRow: View {
     
     var categoryName: String
+    
     var items: [Landmark]
 
     var body: some View {
+        
         VStack(alignment: .leading) {
+            
+            // Titulo de la categoria
             Text(categoryName)
                 .font(.headline)
                 .padding(.leading, 15)
                 .padding(.top, 5)
 
-            ScrollView(.horizontal, showsIndicators: false) {
+            // Listado horizontal de las landmarks
+            ScrollView(.horizontal, showsIndicators: false) { // showsIndicators: false, elimina la barra de desplazamiento
+                
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(items) { landmark in
                         NavigationLink {
@@ -37,7 +43,7 @@ struct CategoryRow: View {
 
 #Preview {
     let landmarks = ModelData().landmarks
-    return CategoryRow(
+    return CategoryRow (
         categoryName: landmarks[0].category.rawValue,
         items: Array(landmarks.prefix(4))
     )

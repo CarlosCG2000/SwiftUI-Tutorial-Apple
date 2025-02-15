@@ -13,14 +13,16 @@ class ModelData {
     var landmarks: [Landmark] = load("landmarkData.json")
     var hikes: [Hike] = load("hikeData.json")
 
+    // Propiedad computada que devuelve un array de Landmark que tienen la propiedad isFeatured en true.
     var features: [Landmark] {
         landmarks.filter { $0.isFeatured }
     }
 
+    // Un diccionario que agrupa los landmarks por categoría.
     var categories: [String: [Landmark]] {
         Dictionary(
-            grouping: landmarks,
-            by: { $0.category.rawValue }
+            grouping: landmarks, // The array of landmarks.
+            by: { $0.category.rawValue } // The category of each landmark.
         )
     }
 }

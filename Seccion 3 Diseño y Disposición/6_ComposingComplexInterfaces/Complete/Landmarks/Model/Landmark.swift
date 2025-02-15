@@ -16,9 +16,11 @@ struct Landmark: Hashable, Codable, Identifiable {
     var state: String
     var description: String
     var isFavorite: Bool
-    var isFeatured: Bool
+    
+    var isFeatured: Bool // This property is used to determine whether a landmark is featured.
 
-    var category: Category
+    var category: Category // Category is an enum defined in this file.
+    
     enum Category: String, CaseIterable, Codable {
         case lakes = "Lakes"
         case rivers = "Rivers"
@@ -26,11 +28,13 @@ struct Landmark: Hashable, Codable, Identifiable {
     }
 
     private var imageName: String
+    
     var image: Image {
         Image(imageName)
     }
 
     private var coordinates: Coordinates
+    
     var locationCoordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(
             latitude: coordinates.latitude,
