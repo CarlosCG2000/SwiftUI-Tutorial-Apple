@@ -1,6 +1,8 @@
 # CURSO: `https://developer.apple.com/tutorials/swiftui/`
 
-# PROYECTO:`1_CreatingAndCombiningViews`
+# ___________________________ SECCIÓN 1 `ESENCIALES DE SWIFT UI` ___________________________
+
+# ..................... PROYECTO:`1_CreatingAndCombiningViews` .....................
 Crea a través de una pantalla la vista con detalles de un lugar con texto, imagen y mapa.
 
 ## 1. `Protocolos`: App, Scene, View
@@ -47,7 +49,7 @@ Abra la biblioteca haciendo clic en el `botón más (+)` en la parte superior de
 ## 5. `Mapa` en Preview()
 En un mapa al pulsar `opt` actua como si estuvieras poniendo dos dedos para expandir o minimizar el mapa.
 
-# PROYECTO:`2_BuildingListsAndNavigation`
+# ..................... PROYECTO:`2_BuildingListsAndNavigation` .....................
 Añada un listado a través de un json con varios lugares (ya no solo hay uno) a los que poder acceder navegando por la lista y navegar a cada lugar con más detalles (la vista de detalles del lugar que se creo en el anterior proyecto).
 
 ## 1. Visualizar varios `Previews` en un mismo fichero
@@ -115,7 +117,7 @@ Es un `Binding` fijo que nunca cambia su valor. Se usa cuando un View requiere u
 
 Si quieres que el usuario mueva el mapa y recuerde la posición, usa @State. Si solo quieres mostrar una ubicación fija, usa .constant(). 🚀
 
-# PROYECTO:`3_HandlingUserInput`
+# ..................... PROYECTO:`3_HandlingUserInput` .....................
 Añadir poder seleccionar lugares favoritos (se ha añadido el campo tambien en el json) y que se muestre tanto en los detalles del lugar como en el listado pudiendo filtrar para ver solo el listado con los favoritos.
 
 ## 1. ¿Por qué `@State` debe ser `private`?
@@ -253,28 +255,29 @@ Son dos momentos diferentes en el ciclo de vida de un programa:
 - `@Environment(ViewModelDta.self) var vm`
 es cómo se `maneja el estado y la compartición de datos` en SwiftUI.
 
-+ Si defines `VM con @State`, significa que cada vez que se `crea vista`, se genera `una nueva instancia de VM`. Esto rompe la sincronización entre `diferentes vistas`, porque cada una` tendría su propio VM` en lugar de compartir la misma instancia global.
++ Si defines `VM con @State`, significa que cada vez que se `crea vista`, se genera `una nueva instancia de VM`. Esto rompe la sincronización entre `diferentes vistas`, porque cada una `tendría su propio VM` en lugar de compartir la misma instancia global.
 
 Cada vista tendría su propio `conjunto de datos separado`, y los cambios en una `vista no afectarían` a las demás.
 
 + `@Environment(ViewModelDta.self)` permite inyectar una instancia compartida de `ModelData` en la vista.
+
 1. Con `.environment(ModelData())` Een `ContentView` o en `#Preview` se pasa una `única instancia` de `ViewModelDta`
-2. Todas las vistas que usan `@Environment(ViewModelDta.self) var vm` acceden a la misma instancia, lo que permite que los cambios sean visibles en toda la app.
+2. Todas las vistas que usan `@Environment(ViewModelDta.self) var vm` acceden a la `misma instancia`, lo que permite que los cambios sean visibles en toda la app.
 
 + Ejemplo práctico de por qué `@Environment` es mejor (dependiendo del caso)
-Supongamos que `VModelData` tiene una `lista de favoritos`, y el usuario marca un `Landmark` como `favorito` en la pantalla de detalle.
+Supongamos que `VModelData` tiene una `lista de favoritos`, y el usuario marca un `lugar` como `favorito` en la pantalla de detalle.
 ❌ Con `@State var modelData = ModelData()`
-Cada vista tiene su `propia copia de VModelData`, por lo que marcar un `Landmark como favorito en LandmarkDetail` no actualizaría la `lista en LandmarkList`.
+Cada vista tiene su `propia copia de VModelData`, por lo que marcar un `Lugar como favorito en LandmarkDetail` no actualizaría la `lista en Lugares`.
 
 ✅ Con `@Environment(ModelData.self) var modelData`
-Todas l`as vistas comparten la misma instancia`, así que `cualquier cambio` se refleja automáticamente en toda la app.
+Todas `las vistas comparten la misma instancia`, así que `cualquier cambio` se refleja automáticamente en toda la app.
 
 + Regla general:
-• Usa `@State` para estados `locales y privados`. Un estado privado que solo cambia dentro de `una vista`.
+• Usa `@State` para estados `locales y privados`. Un estado privado que `solo cambia` dentro de `una vista`.
  `@State` funciona bien cuando el estado es `local` y solo afecta a una `vista específica`.
 • Usa `@Environment` para datos `globales y compartidos` en toda la app. Compartir datos entre `múltiples vistas`. `@Environment` es mejor cuando necesitas `compartir el estado` entre varias vistas.
 
-💡 Por eso, en este caso @Environment(ModelData.self) es la opción correcta.
+💡 Por eso, en este ejemplo `@Environment(ModelData.self)` es la opción correcta.
 
 ## 6. ¿Qué hace `@Bindable`? Diferencia entre `@Bindable` y `@Binding`
 `@Bindable` es un `Property Wrapper` introducido en `Swift 5.9` y `SwiftUI 5`, que facilita la gestión de datos observables cuando se usa con `Observable` en lugar de `ObservableObject`. Permite que una propiedad se enlace de manera más eficiente a la interfaz de usuario sin necesidad de usar `@StateObject, @ObservedObject, o @EnvironmentObject.`
@@ -290,8 +293,8 @@ Todas l`as vistas comparten la misma instancia`, así que `cualquier cambio` se 
 ### 🔄 Diferencias entre `@Bindable` y `@Binding`
 - `@Binding`: se usa cuando pasamos una propiedad de una `vista padre a una vista hija` para que la hija pueda modificarla.
 
-- `@Bindable`: se usa cuando queremos conectar un modelo observable (`@Observable`) a la vista.
-Aquí, `isOn` pertenece a `ModelData`, y @Bindable permite que la vista lo use de forma eficiente sin necesidad de @ObservedObject.
+- `@Bindable`: se usa cuando queremos conectar + observable (`@Observable`) a la vista.
+Aquí, `isOn` pertenece a `ModelData`, y `@Bindable` permite que `la vista` lo use de forma eficiente sin necesidad de `@ObservedObject`.
 
 | **Característica**  | **@Bindable**  | **@Binding**  |
 |---------------------|---------------|--------------|
@@ -300,4 +303,9 @@ Aquí, `isOn` pertenece a `ModelData`, y @Bindable permite que la vista lo use d
 | 📍 **¿Necesita `@State` o `@Observable`?**  | Sí, requiere que el modelo sea `@Observable`.  | Sí, normalmente se enlaza a una propiedad `@State`.  |
 | 🔗 **Cómo funciona**  | Convierte un objeto en un modelo enlazable.  | Solo enlaza una propiedad específica a otra vista.  |
 | 🛠 **Ejemplo de uso**  | `@Bindable var modelData = modelData`  | `@Binding var isOn: Bool`  |
+
+# ___________________________ SECCIÓN 2 `DIBUJO Y ANIMACIÓN` ___________________________
+
+# ..................... PROYECTO:`4_DrawingPathsAndShapes` .....................
+Sigue estando la aplicacion de `la sección 1`. Lo que se `ha añadido` va a aparte es como diseñar y crear un icono en la carpeta `Badges`.
 
