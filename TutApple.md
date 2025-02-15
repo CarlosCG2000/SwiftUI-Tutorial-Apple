@@ -380,8 +380,8 @@ Se modifcian los archivso:
 
 Se crea la carpeta `Category`:
 1️⃣ `CategoryHome` - listato vertical dividido en secciones horizontales por categorias.
-2️⃣ `CategoryRow` - 'listado' horizontal para una seccion en especifico de categoria
-3️⃣ `CategoryItem` - elemento que conforma para cada 'listado' horizontal
+2️⃣ `CategoryRow` - 'listado' horizontal para una seccion en especifico de categoria.
+3️⃣ `CategoryItem` - elemento que conforma para cada 'listado' horizontal.
 
 ## 1. `Agrupar` un `array de diccionario` por tipo de campos de forma directa
 ```js
