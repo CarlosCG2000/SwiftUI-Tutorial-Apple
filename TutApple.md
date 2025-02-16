@@ -50,14 +50,14 @@ Abra la biblioteca haciendo clic en el `botón más (+)` en la parte superior de
 En un mapa al pulsar `opt` actua como si estuvieras poniendo dos dedos para expandir o minimizar el mapa.
 
 # ..................... PROYECTO:`2_BuildingListsAndNavigation` .....................
-Añada un listado a través de un json con varios lugares (ya no solo hay uno) a los que poder acceder navegando por la lista y navegar a cada lugar con más detalles (la vista de detalles del lugar que se creo en el anterior proyecto).
+Añada un listado a través de un swifton con varios lugares (ya no solo hay uno) a los que poder acceder navegando por la lista y navegar a cada lugar con más detalles (la vista de detalles del lugar que se creo en el anterior proyecto).
 
 ## 1. Visualizar varios `Previews` en un mismo fichero
 Se pueden definir varios `Previews` y darles un nombre para identificarlos como `#Preview("Un elemento") { ... }` y en el dispositivo en la parte superior salen las opciones de las `Previews` para elegir cual  queremos ver.
 
 ## 2. Lista `estática` pasar a lista `dinámica`
 Esto es una lista estática:
-```js
+```swift
         List {
             ForEach(episodes) { episodeItem in
             ...
@@ -66,7 +66,7 @@ Esto es una lista estática:
 ```
 
 Esto es una lista dinámica (más óptimo que la estática):
-```js
+```swift
         // si `episodes` es Identifiable no hace falta poner el `\.id`
         List(episodes, \.id) { episodeItem in
             ...
@@ -100,14 +100,14 @@ Es un `Binding` fijo que nunca cambia su valor. Se usa cuando un View requiere u
 3️⃣ Previene cambios no deseados, ya que el valor es fijo.
 
 🔹 Ejemplo con y sin .constant()
-```js
+```swift
     @State private var position: MapCameraPosition = .region(region)
 
     Map(position: $position) // El usuario puede cambiar la posición
 ```
 
 🚫 Con .constant() (fijo, sin cambios)
-```js
+```swift
     Map(position: .constant(.region(region))) // No permite cambios
 ```
 
@@ -118,7 +118,7 @@ Es un `Binding` fijo que nunca cambia su valor. Se usa cuando un View requiere u
 Si quieres que el usuario mueva el mapa y recuerde la posición, usa @State. Si solo quieres mostrar una ubicación fija, usa .constant(). 🚀
 
 # ..................... PROYECTO:`3_HandlingUserInput` .....................
-Añadir poder seleccionar lugares favoritos (se ha añadido el campo tambien en el json) y que se muestre tanto en los detalles del lugar como en el listado pudiendo filtrar para ver solo el listado con los favoritos.
+Añadir poder seleccionar lugares favoritos (se ha añadido el campo tambien en el swifton) y que se muestre tanto en los detalles del lugar como en el listado pudiendo filtrar para ver solo el listado con los favoritos.
 
 ## 1. ¿Por qué `@State` debe ser `private`?
 📌 1️⃣ `@State` es `específico de una vista`
@@ -131,7 +131,7 @@ Si `@State` fuera público, podrías modificarlo desde fuera de la vista, lo que
 Si una vista hija necesita modificar un `@State`, en lugar de hacerlo público, pasas un `Binding` para que solo acceda a la `referencia controlada`.
 
 ✅ Estado privado con `@State`
-```js
+```swift
 struct ParentView: View {
     @State private var showFavoritesOnly = false
 
@@ -142,7 +142,7 @@ struct ParentView: View {
 ```
 
 🚀 Vista secundaria con `Binding`
-```js
+```swift
 struct ChildView: View {
     @Binding var isFavorite: Bool // Binding permite modificar el estado de la vista padre
 
@@ -162,7 +162,7 @@ En algunos casos, puedes no marcarlo como private, por ejemplo, si necesitas que
 ## 2. `Animación` en lista
 Mejora la `animación de filtrado` agregando un `animation(_:)` modificador que comienza cuando el cambios de valor de listado.
 
-```js
+```swift
         List (filteredLandmarks) { landmark in
             NavigationLink {
                 LandmarkDetail(landmark: landmark)
@@ -182,14 +182,14 @@ Los macros `analizan el código fuente` y lo reemplazan por otro código generad
 🔹 `Tipos de Macros` en Swift
 📌 1. Expansión de `Expresiones` (`#myMacro`)
 Se usa en expresiones y se reemplaza por otra expresión en tiempo de compilación.
-```js
+```swift
 let number = #double(21)  // Se expande a: let number = 42
 ```
 
 📌 2. Expansión de `Declaraciones` (`@MyMacro`)
 Se usa en `declaraciones` como funciones, structs o clases.
 
-```js
+```swift
 @Observable // Genera automáticamente código para hacer seguimiento de cambios en una clase
 class User {
     var name: String
@@ -198,14 +198,14 @@ class User {
 
 📌 3. Expansión de `Membros` (`#MemberMacro`)
 Añade propiedades o métodos automáticamente a una estructura o clase.
-```js
+```swift
 struct Persona {
     #addLogging
 }
 ```
 
 Esto podría generar automáticamente métodos como:
-```js
+```swift
 struct Persona {
     func log() { print("Logging Persona...") }
 }
@@ -338,7 +338,7 @@ Ficheros:
 🚀 Conclusión: `Path` se usa aquí para `construir formas personalizadas` como el `hexágono` y el `símbolo de la insignia`, controlando cada punto y curva con precisión.
 
 # ..................... PROYECTO:`5_AnimatingViewsAndTransitions` .....................
-Se crea la carpeta `Hikes` y un nuevo json de `hikeData` para añadir un nuevo modelo `Hike` y en el repositorio `ModelData` obtener tambien los datos en forma de objeto (tipo array de `Hike` de la fuente del json `hikeData`).
+Se crea la carpeta `Hikes` y un nuevo swifton de `hikeData` para añadir un nuevo modelo `Hike` y en el repositorio `ModelData` obtener tambien los datos en forma de objeto (tipo array de `Hike` de la fuente del swifton `hikeData`).
 
 De hay se pasa ya a la carpeta `Hikes`:
 1️⃣ `HikeView` - Esta utilizando una transición personalizada con `AnyTransition` para animar la aparición y desaparición de `HikeDetail`, combinando e`fectos de movimiento y desvanecimiento`. También estás aprovechando las `animaciones asimétricas` para diferenciar la forma en que la vista aparece y desaparece.
@@ -347,7 +347,7 @@ De hay se pasa ya a la carpeta `Hikes`:
 4️⃣ `HikeDetail` - Unir en una misma vista `HikeGraph` con los botones de acciones.
 
 ## 1. `Transición dinámica` personalizada dependiendo de la acción.
-```js
+```swift
         // FUERA DE LA VISTA....
         static var moveAndFade: AnyTransition {
                 .asymmetric(
@@ -384,7 +384,7 @@ Se crea la carpeta `Category`:
 3️⃣ `CategoryItem` - elemento que conforma para cada 'listado' horizontal.
 
 ## 1. `Agrupar` un `array de diccionario` por `tipo de campos` de forma directa
-```js
+```swift
 var categories: [String: [Landmark]] {
     Dictionary(
         grouping: landmarks, // Array de landmarks.
@@ -407,7 +407,7 @@ var categories: [String: [Landmark]] {
 ## 3. ¿Qué hace `showsIndicators: false`?
 En un ScrollView en SwiftUI controla la `visibilidad` de las `barras de desplazamiento`.
 
-```js
+```swift
 ScrollView(.horizontal, showsIndicators: false) {
     // Contenido desplazable
 }
@@ -425,7 +425,7 @@ Por ejemplo:
 • `Sin .renderingMode(.original)`: La imagen puede aparecer en azul (u otro color de acento definido).
 • `Con .renderingMode(.original)`: La imagen mantiene sus colores naturales.
 
-```js
+```swift
 landmark.image
     .renderingMode(.original)
     .resizable()
@@ -452,7 +452,9 @@ Modificado:
 + `CategoryHome`: añadir el boton para aaceder al perfil del usuario.
 
 ## 1. Sección perfil usuario en `.toolbar` de la `list`
-```js
+`Toolbar` en la `List` ideal para poner un botón icono para acceder a la `pantalla de perfil`.
+
+```swift
     List {
 
          }
@@ -465,38 +467,83 @@ Modificado:
          }
 ```
 
-# 2. `@Environment(\.editMode) var editMode`
-SwiftUI proporciona almacenamiento en el entorno para los valores a los que puede acceder utilizando el @Environment envoltorio de propiedad. Anteriormente usaste @Environment para recuperar una clase que almacenó en el entorno.
-```js
+# 2. Modo edición en un a vista `@Environment(\.editMode) var editMode` y botón `EditButton()`
+`SwiftUI` proporciona almacenamiento en el entorno para los valores a los que puede acceder utilizando el `@Environment` envoltorio de propiedad. Anteriormente usaste @Environment para recuperar una clase que almacenó en el entorno.
+
+`@Environment(\.editMode)` se utiliza para detectar y controlar si una `vista` está en `modo de edición o modo de visualización`. Este es un patrón común cuando quieres alternar entre un `estado editable` y uno de `solo lectura` en tu interfaz de usuario.
+
+```swift
 @Environment(\.editMode) var editMode
 ```
 
-Cree un botón Editar que alterne los entornos valor encendido y apagado `.editMode`
-```js
+Esto crea una variable llamada `editMode` que observa el `estado de edición` de la vista.
+• Se utiliza `@Environment` para leer y modificar valores del `entorno global` de SwiftUI, como `el modo de edición`.
+• `editMode` es un Optional (`EditMode?`), por eso se usa `?.wrappedValue.`
+
+🎨 Estados de `EditMode`
+• `.active`: La vista está en modo de edición (editable).
+• `.inactive`: La vista está en modo de visualización (solo lectura).
+
+- `¿Qué es EditButton()?`
+Es un componente de SwiftUI que automáticamente alterna editMode entre:
+• `.active` (modo de edición)
+• `.inactive` (modo de visualización)
+
+Cree un botón `EditButton()` hace que alterne el modo edición o visualización `.editMode`
+```swift
  HStack {
             if editMode?.wrappedValue == .active {
                 Button("Cancel", role: .cancel) {
-                    draftProfile = modelData.profile
-                    editMode?.animation().wrappedValue = .inactive
+                    draftProfile = modelData.profile // Restablece los cambios (draftProfile = modelData.profile).
+                    editMode?.animation().wrappedValue = .inactive // Desactiva el modo de edición (editMode?.wrappedValue = .inactive).
                 }
             }
 
-            Spacer()
+             Spacer()
 
-            EditButton() // ¿ES UN TIPO DE BOTÓN?
+            EditButton() // Es el boton `Edit un botón predeterminado de SwiftUI que alterna automáticamente entre .active e .inactive.
         }
 
-        if editMode?.wrappedValue == .inactive {
+        if editMode?.wrappedValue == .inactive { // Si está en .inactive:
 
-                ProfileSummary(profile: modelData.profile)
+                ProfileSummary(profile: modelData.profile) // Se muestra ProfileSummary, que es solo de lectura.
 
             } else {
 
-                ProfileEditor(profile: $draftProfile)
+                ProfileEditor(profile: $draftProfile) // Se muestra ProfileEditor, que permite editar el perfil.
 
                 //....
             }
 ```
+
+# 3. Crear un `rango de fechas` (`ClosedRange<Date>`)
+```swift
+var dateRange: ClosedRange<Date> {
+    let min = Calendar.current.date(byAdding: .year, value: -1, to: profile.goalDate)!
+    let max = Calendar.current.date(byAdding: .year, value: 1, to: profile.goalDate)!
+    return min...max
+}
+```
+
+Este fragmento de código en `Swift` crea un rango de fechas (`ClosedRange<Date>`) que va un año antes y un año después de una fecha llamada `profile.goalDate`.
+
+`let min = Calendar.current.date(byAdding: .year, value: -1, to: profile.goalDate)!`
+• Utiliza Calendar.current.date(byAdding:...) para restar un año a profile.goalDate.
+• `.year`: Especifica que el ajuste se hará en años.
+• `value: -1`: Resta 1 año.
+• `to`: profile.goalDate: La fecha de referencia es profile.goalDate.
+• `!`: Se fuerza el desempaquetado, asumiendo que siempre se obtendrá una fecha válida.
+
+# ___________________________ SECCIÓN 4 `INTEGRACIÓN DEL FRAMEWORK` ___________________________
+
+# ..................... PROYECTO:`8_InterfacingWithUIKit` .....................
+...
+
+# 1. 
+
+
+
+
 
 
 

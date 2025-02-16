@@ -22,14 +22,14 @@ struct ProfileHost: View {
             HStack {
                 if editMode?.wrappedValue == .active {
                     Button("Cancel", role: .cancel) {
-                        draftProfile = modelData.profile
-                        editMode?.animation().wrappedValue = .inactive
+                        draftProfile = modelData.profile // Restablece los cambios (draftProfile = modelData.profile).
+                        editMode?.animation().wrappedValue = .inactive // Desactiva el modo de edición (editMode?.wrappedValue = .inactive). `editMode` es un Optional (`EditMode?`), por eso se usa `?.wrappedValue.`
                     }
                 }
                 
                 Spacer()
                 
-                EditButton() // ¿ES UN TIPO DE BOTÓN?
+                EditButton() // Es el boton `Edit un botón predeterminado de SwiftUI que alterna automáticamente entre .active e .inactive.
             }
 
             if editMode?.wrappedValue == .inactive {
@@ -41,10 +41,10 @@ struct ProfileHost: View {
                 ProfileEditor(profile: $draftProfile)
                 
                     .onAppear {
-                        draftProfile = modelData.profile
+                        draftProfile = modelData.profile // el nuevo valor de `draftProfile` es igual a `modelData.profile`.
                     }
                     .onDisappear {
-                        modelData.profile = draftProfile
+                        modelData.profile = draftProfile // el nuevo valor de `modelData.profile` es igual a `draftProfile`.
                     }
             }
             
