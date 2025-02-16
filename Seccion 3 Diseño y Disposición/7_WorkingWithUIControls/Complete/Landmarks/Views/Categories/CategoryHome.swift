@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryHome: View {
     @Environment(ModelData.self) var modelData
+    
     @State private var showingProfile = false // mostrar perfil
 
     var body: some View {

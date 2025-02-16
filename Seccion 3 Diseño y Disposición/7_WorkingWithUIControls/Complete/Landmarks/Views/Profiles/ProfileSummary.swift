@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileSummary: View {
     
-    @Environment(ModelData.self) var modelData // para obtener el hikes
+    @Environment(ModelData.self) var modelData // para obtener le hikes
     
     var profile: Profile
 
