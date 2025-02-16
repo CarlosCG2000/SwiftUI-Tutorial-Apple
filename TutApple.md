@@ -383,7 +383,7 @@ Se crea la carpeta `Category`:
 2️⃣ `CategoryRow` - 'listado' horizontal para una seccion en especifico de categoria.
 3️⃣ `CategoryItem` - elemento que conforma para cada 'listado' horizontal.
 
-## 1. `Agrupar` un `array de diccionario` por tipo de campos de forma directa
+## 1. `Agrupar` un `array de diccionario` por `tipo de campos` de forma directa
 ```js
 var categories: [String: [Landmark]] {
     Dictionary(
@@ -394,18 +394,18 @@ var categories: [String: [Landmark]] {
 ```
 
 1. `grouping`:
-• Toma el array landmarks (un array de objetos Landmark).
-• Agrupa los elementos del array en subarrays según un criterio.
+• Toma el array landmarks (un `array de objetos` Landmark).
+• Agrupa los elementos del array en `subarrays` según un criterio.
 2. `by`:
-• Define cómo agrupar los elementos.
-• En este caso, se agrupa usando la categoría (category.rawValue) de cada Landmark.
+• Define cómo `agrupar los elementos`.
+• En este caso, se `agrupa usando la categoría` (category.rawValue) de cada Landmark.
 
 ## 2. ¿Qué hace `.listRowInsets(EdgeInsets())`?
-• Elimina el padding predeterminado de los elementos de la lista.
-• De forma predeterminada, SwiftUI aplica un espaciado alrededor de cada fila en una List. Usando EdgeInsets() lo establece en cero, haciendo que el contenido ocupe todo el ancho disponible.
+• `Elimina el padding` predeterminado de `los elementos de la lista`.
+• De forma predeterminada, SwiftUI aplica `un espaciado` alrededor de cada `fila en una List`. Usando EdgeInsets() lo establece en cero, haciendo que el contenido ocupe todo el ancho disponible.
 
 ## 3. ¿Qué hace `showsIndicators: false`?
-En un ScrollView en SwiftUI controla la visibilidad de las barras de desplazamiento.
+En un ScrollView en SwiftUI controla la `visibilidad` de las `barras de desplazamiento`.
 
 ```js
 ScrollView(.horizontal, showsIndicators: false) {
@@ -413,8 +413,8 @@ ScrollView(.horizontal, showsIndicators: false) {
 }
 ```
 
-• `showsIndicator: false`: Oculta las barras de desplazamiento.
-• `showsIndicators: true` (valor predeterminado): Muestra las barras de desplazamiento.
+1. `showsIndicator: false`: Oculta las barras de desplazamiento.
+2. `showsIndicators: true` (valor predeterminado): Muestra las barras de desplazamiento.
 
 ## 4. ¿Por qué usar `.renderingMode(.original)`?
 En SwiftUI, `.renderingMode(.original)` se utiliza para mostrar una imagen con sus colores originales, en lugar de aplicarle el tinte (tint) predeterminado de la vista que la contiene.
@@ -439,13 +439,64 @@ Aquí se asegura de que la imagen del landmark:
 • Tenga esquinas redondeadas con .cornerRadius(5).
 
 # ..................... PROYECTO:`7_WorkingWithUIControls` .....................
-Añade este nuevo proyecto...
+Añade este nuevo proyecto una pantalla de un perfil de usuario que se abre como un sheet y te permite visualizar todos los datos del usuario aparte de los Badges (insignias creados con forma geométrica) y Hikes (caminatas con gráficas animadas), que son caracteristicas que vimos y creamos en otras secciones.
+Los datos personales tambien se podran editar enviando a una nueva pantalla y pudiendo modificarlos.
 
-## 1.
+1️⃣ `Profile`: modelo donde defino un perfil de usuario.
+2️⃣ `ProfileSummary`: muestra los datos del usuario y los Badges (como `HikeBadge`) y Hikes.
+3️⃣ `HikeBadge`: muestra un Badge con titulo
+4️⃣ `ProfileEditor`: es como  un formulario para que el usuario edite sus campos
+5️⃣ `ProfileHost`: se cuenta la info de `ProfileSummary` y añade un botón para acceder y editar
 
+Modificado:
++ `CategoryHome`: añadir el boton para aaceder al perfil del usuario.
 
+## 1. Sección perfil usuario en `.toolbar` de la `list`
+```js
+    List {
 
+         }
+         .toolbar { // Un conjunto de botones que se muestran en la barra de herramientas de la vista.
+            Button {
+                showingProfile.toggle()
+            } label: {
+                Label("User Profile", systemImage: "person.crop.circle")
+            }
+         }
+```
 
+# 2. `@Environment(\.editMode) var editMode`
+SwiftUI proporciona almacenamiento en el entorno para los valores a los que puede acceder utilizando el @Environment envoltorio de propiedad. Anteriormente usaste @Environment para recuperar una clase que almacenó en el entorno.
+```js
+@Environment(\.editMode) var editMode
+```
+
+Cree un botón Editar que alterne los entornos valor encendido y apagado `.editMode`
+```js
+ HStack {
+            if editMode?.wrappedValue == .active {
+                Button("Cancel", role: .cancel) {
+                    draftProfile = modelData.profile
+                    editMode?.animation().wrappedValue = .inactive
+                }
+            }
+
+            Spacer()
+
+            EditButton() // ¿ES UN TIPO DE BOTÓN?
+        }
+
+        if editMode?.wrappedValue == .inactive {
+
+                ProfileSummary(profile: modelData.profile)
+
+            } else {
+
+                ProfileEditor(profile: $draftProfile)
+
+                //....
+            }
+```
 
 
 

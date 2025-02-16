@@ -8,12 +8,17 @@ A view that hosts the profile viewer and editor.
 import SwiftUI
 
 struct ProfileHost: View {
-    @Environment(\.editMode) var editMode
-    @Environment(ModelData.self) var modelData
-    @State private var draftProfile = Profile.default
+    
+    @Environment(\.editMode) var editMode // OJO:
+    
+    @Environment(ModelData.self) var modelData // para obtener la instancia de ModelData y los datos del Profile
+    
+    @State private var draftProfile = Profile.default // llamo a la clase Profile y a la instancia el valor default
 
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 20) {
+            
             HStack {
                 if editMode?.wrappedValue == .active {
                     Button("Cancel", role: .cancel) {
@@ -21,14 +26,20 @@ struct ProfileHost: View {
                         editMode?.animation().wrappedValue = .inactive
                     }
                 }
+                
                 Spacer()
-                EditButton()
+                
+                EditButton() // ¿ES UN TIPO DE BOTÓN?
             }
 
             if editMode?.wrappedValue == .inactive {
+                
                 ProfileSummary(profile: modelData.profile)
+                
             } else {
+                
                 ProfileEditor(profile: $draftProfile)
+                
                     .onAppear {
                         draftProfile = modelData.profile
                     }
@@ -36,6 +47,7 @@ struct ProfileHost: View {
                         modelData.profile = draftProfile
                     }
             }
+            
         }
         .padding()
     }

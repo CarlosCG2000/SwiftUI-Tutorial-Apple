@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CategoryHome: View {
     @Environment(ModelData.self) var modelData
-    @State private var showingProfile = false
+    @State private var showingProfile = false // mostrar perfil
 
     var body: some View {
+        
         NavigationSplitView {
+            
             List {
                 modelData.features[0].image
                     .resizable()
@@ -26,9 +28,9 @@ struct CategoryHome: View {
                 }
                 .listRowInsets(EdgeInsets())
             }
-            .listStyle(.inset)
+            .listStyle(.inset) // Es un estilo de lista que se utiliza para mostrar las filas de la lista con un margen en el borde izquierdo.
             .navigationTitle("Featured")
-            .toolbar {
+            .toolbar { // Un conjunto de botones que se muestran en la barra de herramientas de la vista.
                 Button {
                     showingProfile.toggle()
                 } label: {
