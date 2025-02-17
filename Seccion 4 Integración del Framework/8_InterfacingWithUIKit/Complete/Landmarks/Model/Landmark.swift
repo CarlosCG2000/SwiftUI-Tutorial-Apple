@@ -29,6 +29,8 @@ struct Landmark: Hashable, Codable, Identifiable {
     var image: Image {
         Image(imageName)
     }
+    
+    // Agregar una propiedad calculada a la Landmark estructura que devuelve la imagen de la característica, si existe
     var featureImage: Image? {
         isFeatured ? Image(imageName + "_feature") : nil
     }

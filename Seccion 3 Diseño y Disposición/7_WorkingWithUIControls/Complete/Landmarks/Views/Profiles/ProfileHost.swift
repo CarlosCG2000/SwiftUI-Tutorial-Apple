@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileHost: View {
     
-    @Environment(\.editMode) var editMode // OJO:
+    @Environment(\.editMode) var editMode // se utiliza para detectar y controlar si una `vista` está en `modo de edición o modo de visualización`. Este es un patrón común cuando quieres alternar entre un `estado editable` y uno de `solo lectura` en tu interfaz de usuario.
     
     @Environment(ModelData.self) var modelData // para obtener la instancia de ModelData y los datos del Profile
     

@@ -537,14 +537,76 @@ Este fragmento de código en `Swift` crea un rango de fechas (`ClosedRange<Date>
 # ___________________________ SECCIÓN 4 `INTEGRACIÓN DEL FRAMEWORK` ___________________________
 
 # ..................... PROYECTO:`8_InterfacingWithUIKit` .....................
+Se añade funcionamiento para representar `vistas UIKit` y controladores de vista en `SwiftUI`.
+
+Ficheros nuevos (en carpeta `PageView`):
+- `PageViewController`
+- `PageControl`
+- `PageView`
+- `FeatureCard`
+
+Ficheros modificados:
+- `Landmark`
+- `CategoryHome`
+
+# 1. Protócolo `UIViewControllerRepresentable`
+`UIViewControllerRepresentable` es un protocolo que permite usar controladores de vista de UIKit (UIViewController) dentro de una vista SwiftUI.
+
+`SwiftUI` no tiene todas las funcionalidades de `UIKit`. A veces, necesitas usar un UIViewController porque:
+✅ No hay una alternativa en SwiftUI (Ejemplo: UIImagePickerController para la cámara).
+✅ Quieres reutilizar código existente en UIKit.
+✅ Necesitas una funcionalidad avanzada (Ejemplo: UIPageViewController para paginación).
+
+Cuando creas una vista basada en `UIViewControllerRepresentable`, debes implementar al menos dos métodos obligatorios
+```swift
+protocol UIViewControllerRepresentable {
+    associatedtype UIViewControllerType: UIViewController
+
+    // Crea y devuelve el UIViewController de UIKit que usará SwiftUI.
+    func makeUIViewController(context: Context) -> UIViewControllerType
+    // Actualiza la vista cuando SwiftUI detecta cambios.
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context)
+}
+```
+
+- ¿Qué protocolo utiliza para unir los controladores de vista UIKit a SwiftUI? `UIViewControllerRepresentable` que sirve para crear una estructura que se ajuste a implementar los requisitos del protocolo para incluir en su jerarquía de vista.
+
+- ¿En qué método crea un delegado o fuente de datos para un tipo `UIViewControllerRepresentable`?
+En el método `makeCoordinator() context` parámetro en otros métodos requeridos.
+
+# 2. Protócolo `UIViewRepresentable`
+`UIViewRepresentable` permite usar vistas de UIKit (UIView) dentro de SwiftUI.
+Su estructura es similar a `UIViewControllerRepresentable`, pero para `vistas` en lugar de `controladores`.
+
+```swift
+protocol UIViewRepresentable {
+    associatedtype UIViewType: UIView
+
+    // Crea y configura la vista UIKit (UIPageControl).
+    func makeUIView(context: Context) -> UIViewType
+
+    // Actualiza la vista cuando SwiftUI detecta cambios.
+    func updateUIView(_ uiView: UIViewType, context: Context)
+}
+```
+
+# 3. `PageView` en `SwiftUI`
+Esta vista combina `PageViewController (paginación deslizante)` y `PageControl` (indicador de páginas con puntitos) en un solo componente reutilizable.
+
+# 4. 🚀 Conceptos Clave Finales
+
+✅ `UIViewControllerRepresentable` y `UIViewRepresentable` permiten usar `UIKit` en `SwiftUI`.
+✅ Coordinator maneja la interacción entre `SwiftUI` y `UIKit`.
+✅ `@State` y `@Binding` permiten la comunicación entre vistas.
+✅ `UIPageViewController` permite deslizamiento entre páginas.
+✅ `UIPageControl` muestra el estado de la paginación.
+
+🔹 Uso típico: Carruseles de imágenes, introducciones (Onboarding), secciones deslizables.
+
+# ..................... PROYECTO:`9_CreatingAwatchOSApp` .....................
 ...
 
 # 1. 
-
-
-
-
-
 
 
 # ################################## `Mi aplicación (Simpsons)` ##################################
