@@ -41,9 +41,11 @@ struct ProfileHost: View {
                 ProfileEditor(profile: $draftProfile)
                 
                     .onAppear {
+                        print("Entrando en modo de edición")
                         draftProfile = modelData.profile // el nuevo valor de `draftProfile` es igual a `modelData.profile`.
                     }
                     .onDisappear {
+                        print("Saliendo del modo de edición")
                         modelData.profile = draftProfile // el nuevo valor de `modelData.profile` es igual a `draftProfile`.
                     }
             }
