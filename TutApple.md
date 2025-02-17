@@ -604,7 +604,7 @@ Esta vista combina `PageViewController (paginación deslizante)` y `PageControl`
 🔹 Uso típico: Carruseles de imágenes, introducciones (Onboarding), secciones deslizables.
 
 # ..................... PROYECTO:`9_CreatingAwatchOSApp` .....................
-...
+Crear proyecto en el Apple Watch
 
 # 1. 
 
