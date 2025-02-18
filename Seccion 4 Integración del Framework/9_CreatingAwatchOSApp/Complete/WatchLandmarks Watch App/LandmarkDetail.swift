@@ -7,8 +7,11 @@ A detail view for a landmark suitable for display on a Watch.
 
 import SwiftUI
 
+// Este archivo se distingue del archivo con el mismo nombre en el proyecto iOS por su membresía de destino — se aplica solo al objetivo de la aplicación WatchLandmarks Watch.
 struct LandmarkDetail: View {
+    
     @Environment(ModelData.self) var modelData
+    
     var landmark: Landmark
 
     var landmarkIndex: Int {
@@ -19,6 +22,7 @@ struct LandmarkDetail: View {
         @Bindable var modelData = modelData
 
         ScrollView {
+            
             VStack {
                 CircleImage(image: landmark.image.resizable())
                     .scaledToFit()
@@ -54,6 +58,7 @@ struct LandmarkDetail: View {
 
 #Preview {
     let modelData = ModelData()
+    
     return LandmarkDetail(landmark: modelData.landmarks[0])
         .environment(modelData)
 }

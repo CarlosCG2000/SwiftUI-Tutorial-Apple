@@ -7,13 +7,17 @@ A view that displays incoming notifications.
 
 import SwiftUI
 
+// Es la vista que se muestra cuando llega una notificación push.
 struct NotificationView: View {
+    
     var title: String?
     var message: String?
     var landmark: Landmark?
 
     var body: some View {
+        
         VStack {
+            
             if let landmark {
                 CircleImage(image: landmark.image.resizable())
                     .scaledToFit()
@@ -30,13 +34,14 @@ struct NotificationView: View {
     }
 }
 
-#Preview {
+#Preview("No encuentra") {
     NotificationView()
 }
 
-#Preview {
+#Preview("Si encuentra") {
     NotificationView(
         title: "Turtle Rock",
         message: "You are within 5 miles of Turtle Rock.",
         landmark: ModelData().landmarks[0])
 }
+

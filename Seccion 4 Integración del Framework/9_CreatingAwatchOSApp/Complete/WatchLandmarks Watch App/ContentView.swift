@@ -10,10 +10,11 @@ import UserNotifications
 
 struct ContentView: View {
     var body: some View {
-        LandmarkList()
-            .task {
-                let center = UNUserNotificationCenter.current()
-                _ = try? await center.requestAuthorization(
+        
+        LandmarkList() // vista
+            .task { // se solicita permiso para notificaciones usando UNUserNotificationCenter.
+                let center = UNUserNotificationCenter.current() // pide permiso para mostrar: alertas, sonidos, badges en el ícono de la app.
+                _ = try? await center.requestAuthorization( // try? await sugiere que la autorización podría fallar, pero no detendrá la ejecución.
                     options: [.alert, .sound, .badge]
                 )
             }

@@ -604,14 +604,39 @@ Esta vista combina `PageViewController (paginación deslizante)` y `PageControl`
 🔹 Uso típico: Carruseles de imágenes, introducciones (Onboarding), secciones deslizables.
 
 # ..................... PROYECTO:`9_CreatingAwatchOSApp` .....................
-Crear proyecto en el Apple Watch.
+Crear un `target` para la ejecución en el `Apple Watch` dentro del proyecto que ya llevamos hecho.
+
+Lo nuevo se encuentra en la carpeta `WatchLandmarks Watch App` pero antes de llegar aqui tenemos que realizar `unos pasos` para pasarle `algunos de los ficheros` que no se modifican `al target` tambien de `Apple Watch`.
+
+# 1. Cree una interfaz de notificación personalizada
+
+```swift
+ LandmarkList() // vista
+            .task { // se solicita permiso para notificaciones usando UNUserNotificationCenter.
+                let center = UNUserNotificationCenter.current() // pide permiso para mostrar: alertas, sonidos, badges en el ícono de la app.
+                _ = try? await center.requestAuthorization( // try? await sugiere que la autorización podría fallar, pero no detendrá la ejecución.
+                    options: [.alert, .sound, .badge]
+                )
+            }
+```
+
+1. Una vista principal (ContentView) que solicita permiso para notificaciones.
+2. Una vista de notificación personalizada (NotificationView) para mostrar información sobre un landmark (sitio de interés).
+3. Un controlador de notificaciones (NotificationController) que maneja las notificaciones recibidas.
+
+✅ ¿Qué hace este código?
+1.	Solicita permiso para notificaciones en ContentView.
+2.	Define una vista de notificación (NotificationView) que muestra información sobre un landmark.
+3.	Procesa las notificaciones push en NotificationController, extrayendo datos del userInfo de la notificación.
+4.	Usa un payload JSON para enviar información sobre un landmark a través de una notificación push.
+
+# ..................... PROYECTO:`10_CreatingAmacOSApp` .....................
+...
 
 # 1. 
 
 
 
 
-
-
-
 # ################################## `Mi aplicación (Simpsons)` ##################################
+¿Como enviar notificaciones? Idea enviar notificacion de si quiere echar una partida al juego.
