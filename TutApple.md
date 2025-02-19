@@ -616,7 +616,7 @@ Lo nuevo se encuentra en la carpeta `WatchLandmarks Watch App` pero antes de lle
 - Seleccionar los modelos, repositorios,  VM, vistas (ficheros) que nuestra aplicación puede mostrar igualmente en iOS que en WatchOS. Al seleccionarlo saldra a la derecha la opción de `Target Membership` en la cual tenemos que añadir el nuevo `target del WatchOS`.
 - Añadir en el `Assets` los imagenes necesarias.
 
-Apartir de aqui ya solo quedaria `crear los archivos` que no se han importado porque no son `compatibles con el WatchOS` como pueden ser las `vistas` con muchos detalles que ocupen mucho. En cada aricho a la hora de crearlo te va a preguntar aque target quieres y tienes que seleccionar solo al de `WatchOS`.
+Apartir de aqui ya solo quedaria `crear los archivos` que no se han importado porque no son `compatibles con el WatchOS` como pueden ser las `vistas` con muchos detalles que ocupen mucho. En cada archivo a la hora de crearlo te va a preguntar a que target quieres y tienes que seleccionar solo al de `WatchOS`.
 
 # 1. Cree una interfaz de notificación personalizada
 
@@ -724,11 +724,74 @@ Se supone...
 # ..................... PROYECTO:`10_CreatingAmacOSApp` .....................
 Añadir otra sección para tener la aplicación tambien para dispositivos `macOS`.
 
-# 1. 
+Crear un `target` para la ejecución en el `macOs` dentro del proyecto que ya llevamos hecho.
 
+- Seleccionar: `File --> New --> Target --> macOs (Application - App)`
 
+Lo nuevo se encuentra en la carpeta `MacLandmarksApp` pero antes de llegar aqui tenemos que realizar `unos pasos` para pasarle `algunos de los ficheros` que no se modifican `al target` tambien de `MacOS`.
 
+- Eliminar el fichero de `punto de entrada` para la aplicación watchOS, es la `xxxxApp.swift`
+- Seleccionar los modelos, repositorios,  VM, vistas (ficheros) que nuestra aplicación puede mostrar igualmente en iOS que en WatchOS. Incluir el  en el `Assets` los imagenes necesarias. Al seleccionarlo saldra a la derecha la opción de `Target Membership` en la cual tenemos que añadir el nuevo `target del MacOS`.
+
+Apartir de aqui ya solo quedaria `crear los archivos` que no se han importado porque no son `compatibles con el MacOS` como pueden ser las `vistas` con muchos detalles que ocupen mucho. En cada archivo a la hora de crearlo te va a preguntar a que target quieres y tienes que seleccionar solo al de `MacOS`.
+
+# 1. Botón par abrir la app de `mapas de Apple`.
+```swift
+ Button("Open in Maps") {
+                    // Open the Maps app with the destination set to the landmark location.
+                    let destination = MKMapItem(placemark: MKPlacemark(coordinate: landmark.locationCoordinate))
+                    destination.name = landmark.name
+                    destination.openInMaps()
+                }
+```
+
+# 2. Alineaciones `personalización`.
+```swift
+ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) { ...}
+
+VStack(alignment: .leading, spacing: 20) { ... }
+
+.offset(y: -50)
+```
+
+# 3. `Habilitar opciones` según para que `sistema operativo` va a ser.
+```swift
+ #if !os(watchOS)
+        .commands {
+            LandmarkCommands()
+        }
+        #endif
+
+        #if os(watchOS)
+        WKNotificationScene(controller: NotificationController.self, category: "LandmarkNear")
+        #endif
+```
+
+# 4. Crear `comandos del teclado` para realizar acciones.
+```swift
+struct LandmarkCommands: Commands {
+    @FocusedBinding(\.selectedLandmark) var selectedLandmark
+
+    var body: some Commands {
+
+        SidebarCommands()
+
+        CommandMenu("Landmark") {
+            Button("\(selectedLandmark?.isFavorite == true ? "Remove" : "Mark") as Favorite") {
+                selectedLandmark?.isFavorite.toggle()
+            }
+            .keyboardShortcut("f", modifiers: [.shift, .option])
+            .disabled(selectedLandmark == nil)
+        }
+    }
+}
+```
+
+# 5. `Agregar preferencias` con una escena de `configuración`.
+Ultimo punto.
 
 
 # ################################## `Mi aplicación (Simpsons)` ##################################
-¿Como enviar notificaciones? Idea enviar notificacion de si quiere echar una partida al juego de citas.
+- ¿Como enviar `notificaciones`? Idea enviar notificación de si quiere echar una partida al juego de citas.
+- `Pasar aplicación` a Apple Watch (`WatchOS`) y MacBook (`MacOS`). Al menos la visualización de las vistas.
+
