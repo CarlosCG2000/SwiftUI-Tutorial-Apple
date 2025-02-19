@@ -739,9 +739,9 @@ Apartir de aqui ya solo quedaria `crear los archivos` que no se han importado po
 ```swift
  Button("Open in Maps") {
                     // Open the Maps app with the destination set to the landmark location.
-                    let destination = MKMapItem(placemark: MKPlacemark(coordinate: landmark.locationCoordinate))
-                    destination.name = landmark.name
-                    destination.openInMaps()
+                    let destination = MKMapItem(placemark: MKPlacemark(coordinate: landmark.locationCoordinate)) // Se crea un objeto MKMapItem, que representa un lugar en Apple Maps.
+                    destination.name = landmark.name // Se le da un name (el nombre del landmark).
+                    destination.openInMaps() // Se llama a .openInMaps(), que abre la app de Apple Maps con la ubicación configurada.
                 }
 ```
 
@@ -751,47 +751,99 @@ ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) { ...}
 
 VStack(alignment: .leading, spacing: 20) { ... }
 
-.offset(y: -50)
+.offset(y: -50) // desplaza el contenido 50 puntos hacia arriba.
 ```
 
 # 3. `Habilitar opciones` según para que `sistema operativo` va a ser.
 ```swift
- #if !os(watchOS)
-        .commands {
-            LandmarkCommands()
+ #if !os(watchOS) //  Esta línea excluye la siguiente sección de código en watchOS.
+        .commands { // Se usa para agregar comandos en la barra de menú en macOS o acciones específicas en iOS/iPadOS.
+            LandmarkCommands() // Un struct que define comandos personalizados en la app.
         }
-        #endif
-
-        #if os(watchOS)
-        WKNotificationScene(controller: NotificationController.self, category: "LandmarkNear")
         #endif
 ```
 
 # 4. Crear `comandos del teclado` para realizar acciones.
+En la vista principal de la App `LandmarksApp`:
 ```swift
-struct LandmarkCommands: Commands {
-    @FocusedBinding(\.selectedLandmark) var selectedLandmark
+#if !os(watchOS)
+.commands {
+    LandmarkCommands()
+}
+#endif
+```
+
+La vista `LandmarkCommands`:
+```swift
+struct LandmarkCommands: Commands { // Protocolo Commands permite agregar atajos de teclado y menús en macOS.
+    @FocusedBinding(\.selectedLandmark) var selectedLandmark // Obtiene un binding ($selectedLandmark) a la selección actual del usuario.
 
     var body: some Commands {
 
-        SidebarCommands()
+        SidebarCommands() // DE APPLE: Agrega comandos estándar de la barra lateral de macOS (mostrar/ocultar).
 
         CommandMenu("Landmark") {
+            /**
+            	•	Si un Landmark está seleccionado, muestra un botón para marcarlo o desmarcarlo como favorito.
+                •	"Mark as Favorite" si no es favorito.
+                •	"Remove as Favorite" si ya lo es.
+            */
+
             Button("\(selectedLandmark?.isFavorite == true ? "Remove" : "Mark") as Favorite") {
                 selectedLandmark?.isFavorite.toggle()
             }
-            .keyboardShortcut("f", modifiers: [.shift, .option])
-            .disabled(selectedLandmark == nil)
+            .keyboardShortcut("f", modifiers: [.shift, .option]) // Atajo de teclado: Shift + Option + F
+            .disabled(selectedLandmark == nil) // Desactiva el botón si no hay un Landmark seleccionado.
         }
+    }
+}
+
+// Define una clave personalizada (FocusedValueKey) para almacenar la selección de un Landmark.
+private struct SelectedLandmarkKey: FocusedValueKey {
+    typealias Value = Binding<Landmark> // El valor almacenado es un Binding<Landmark> (permite modificarlo directamente).
+}
+
+extension FocusedValues { //  El valor almacenado es un Binding<Landmark> (permite modificarlo directamente).
+    var selectedLandmark: Binding<Landmark>? {
+        get { self[SelectedLandmarkKey.self] } // El valor almacenado es un Binding<Landmark> (permite modificarlo directamente).
+        set { self[SelectedLandmarkKey.self] = newValue } // Permite modificar el valor almacenado.
+    }
+}
+
+```
+
+# 5. `Agregar preferencias` con una escena de `configuración`.
+En la vista principal de la App `LandmarksApp`:
+```swift
+#if os(macOS)
+    Settings {
+        LandmarkSettings()
+    }
+ #endif
+```
+
+Eso simplemente es una vista con un picker para la configuración `LandmarkSettings`:
+```swift
+struct LandmarkSettings: View {
+
+    @AppStorage("MapView.zoom") // Guarda y recupera el nivel de zoom del mapa en almacenamiento persistente (UserDefaults). "MapView.zoom" es la clave donde se guarda la preferencia. 
+    private var zoom: MapView.Zoom = .medium // Valor inicial predeterminado (.medium).
+
+    var body: some View {
+
+        Form { // crea una interfaz tipo formulario.
+            Picker("Map Zoom:", selection: $zoom) { // permite seleccionar el nivel de zoom.
+                ForEach(MapView.Zoom.allCases) { level in
+                    Text(level.rawValue)
+                }
+            }
+            .pickerStyle(.inline)
+        }
+        .frame(width: 300)
+        .navigationTitle("Landmark Settings")
+        .padding(80)
     }
 }
 ```
 
-# 5. `Agregar preferencias` con una escena de `configuración`.
-Ultimo punto.
-
-
-# ################################## `Mi aplicación (Simpsons)` ##################################
-- ¿Como enviar `notificaciones`? Idea enviar notificación de si quiere echar una partida al juego de citas.
-- `Pasar aplicación` a Apple Watch (`WatchOS`) y MacBook (`MacOS`). Al menos la visualización de las vistas.
 
