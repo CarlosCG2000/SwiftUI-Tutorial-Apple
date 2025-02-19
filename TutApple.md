@@ -606,11 +606,24 @@ Esta vista combina `PageViewController (paginación deslizante)` y `PageControl`
 # ..................... PROYECTO:`9_CreatingAwatchOSApp` .....................
 Crear un `target` para la ejecución en el `Apple Watch` dentro del proyecto que ya llevamos hecho.
 
+- Seleccionar: `File --> New --> Target --> wartchOS (Application - App)`
+- Elegir opción: `Watch App for Existing iOS App`
+- Dentro del Target ya creado de WatchOS: `Deployments Info --> (Seleccionar) Supports Running Without iOS App Installation`
+
 Lo nuevo se encuentra en la carpeta `WatchLandmarks Watch App` pero antes de llegar aqui tenemos que realizar `unos pasos` para pasarle `algunos de los ficheros` que no se modifican `al target` tambien de `Apple Watch`.
+
+- Eliminar el fichero de `punto de entrada` para la aplicación watchOS, es la `xxxxApp.swift`
+- Seleccionar los modelos, repositorios,  VM, vistas (ficheros) que nuestra aplicación puede mostrar igualmente en iOS que en WatchOS. Al seleccionarlo saldra a la derecha la opción de `Target Membership` en la cual tenemos que añadir el nuevo `target del WatchOS`.
+- Añadir en el `Assets` los imagenes necesarias.
+
+Apartir de aqui ya solo quedaria `crear los archivos` que no se han importado porque no son `compatibles con el WatchOS` como pueden ser las `vistas` con muchos detalles que ocupen mucho. En cada aricho a la hora de crearlo te va a preguntar aque target quieres y tienes que seleccionar solo al de `WatchOS`.
 
 # 1. Cree una interfaz de notificación personalizada
 
+1. `ContentView.swift`
 ```swift
+import UserNotifications
+
  LandmarkList() // vista
             .task { // se solicita permiso para notificaciones usando UNUserNotificationCenter.
                 let center = UNUserNotificationCenter.current() // pide permiso para mostrar: alertas, sonidos, badges en el ícono de la app.
@@ -620,23 +633,102 @@ Lo nuevo se encuentra en la carpeta `WatchLandmarks Watch App` pero antes de lle
             }
 ```
 
-1. Una vista principal (ContentView) que solicita permiso para notificaciones.
-2. Una vista de notificación personalizada (NotificationView) para mostrar información sobre un landmark (sitio de interés).
-3. Un controlador de notificaciones (NotificationController) que maneja las notificaciones recibidas.
-
 ✅ ¿Qué hace este código?
-1.	Solicita permiso para notificaciones en ContentView.
-2.	Define una vista de notificación (NotificationView) que muestra información sobre un landmark.
-3.	Procesa las notificaciones push en NotificationController, extrayendo datos del userInfo de la notificación.
-4.	Usa un payload JSON para enviar información sobre un landmark a través de una notificación push.
+- 1. Solicita `permiso para notificaciones` en `ContentView`.
+- 2. Define una vista de notificación (`NotificationView`) que muestra información sobre un landmark.
+- 3. Procesa las `notificaciones push` en `NotificationController`, extrayendo datos del `userInfo` de la notificación.
+- 4. Usa un `payload JSON` para enviar información sobre un landmark a través de una notificación push.
+
+2. `NotificationView.swift`
+Es una vista normal y corriente
+
+- Es la `vista` que se muestra cuando llega `una notificación push`.
+
+3. `NotificationController.swift (watchOS)`
+
+```swift
+import WatchKit
+import UserNotification
+
+class NotificationController: WKUserNotificationHostingController<NotificationView> {
+    var landmark: Landmark?
+    var title: String?
+    var message: String?
+
+    let landmarkIndexKey = "landmarkIndex"
+
+    override var body: NotificationView {
+        NotificationView(title: title,
+            message: message,
+            landmark: landmark)
+    }
+
+    override func didReceive(_ notification: UNNotification) {  // Cuando se recibe una notificación, didReceive(_:) obtiene los datos desde notification.request.content.userInfo.
+
+        let modelData = ModelData()
+
+        let notificationData =
+            notification.request.content.userInfo as? [String: Any]
+
+        // Extrae el título y el mensaje de la notificación desde la clave aps.alert.
+        let aps = notificationData?["aps"] as? [String: Any]
+        let alert = aps?["alert"] as? [String: Any]
+
+        title = alert?["title"] as? String
+        message = alert?["body"] as? String
+
+        // Obtiene el índice del landmark desde la clave "landmarkIndex" y lo usa para buscar el Landmark en ModelData.
+        if let index = notificationData?[landmarkIndexKey] as? Int {
+            landmark = modelData.landmarks[index] // La vista NotificationView se actualiza con estos datos.
+        }
+    }
+
+}
+```
+
+• `NotificationController` maneja la llegada de notificaciones push en un Apple Watch.
+• Hereda de `WKUserNotificationHostingController<NotificationView>`, lo que significa que usa `NotificationView` como su interfaz de usuario.
+
+4. `PushNotificationPayload.json` es un `json` creado con desde `watchOS --> Resource --> Notification Simulation File`
+```json
+{
+    "aps": {
+        "alert": {
+            "title": "Silver Salmon Creek",
+            "body": "You are within 5 miles of Silver Salmon Creek."
+        },
+        "category": "LandmarkNear",
+        "thread-id": "5280"
+    },
+
+    "landmarkIndex": 1,
+
+    "Simulator Target Bundle": "com.example.apple-samplecode.Landmarks.watchkitapp"
+}
+```
+
+Este es un ejemplo `JSON` de una notificación push que el servidor enviaría a la app.
+
+📌 Claves importantes:
+• `aps.alert` → Contiene el título y mensaje de la notificación.
+• `category` → Define una categoría personalizada de la notificación (LandmarkNear).
+• `thread-id` → Agrupa notificaciones relacionadas en una misma conversación.
+• `landmarkIndex` → Indica qué landmark específico se debe mostrar en la notificación.
+
+Se supone...
+📌 ¿Cuándo debería aparecer la notificación?
+1. Cuando el servidor envía una notificación push con el payload JSON correcto.
+2. Cuando la app está cerrada o en segundo plano en el Apple Watch.
+3. Cuando la notificación push está correctamente configurada en el Xcode y en el dispositivo.
 
 # ..................... PROYECTO:`10_CreatingAmacOSApp` .....................
-...
+Añadir otra sección para tener la aplicación tambien para dispositivos `macOS`.
 
 # 1. 
 
 
 
 
+
 # ################################## `Mi aplicación (Simpsons)` ##################################
-¿Como enviar notificaciones? Idea enviar notificacion de si quiere echar una partida al juego.
+¿Como enviar notificaciones? Idea enviar notificacion de si quiere echar una partida al juego de citas.
